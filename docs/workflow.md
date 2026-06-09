@@ -15,7 +15,7 @@
 ## Alur 1 Hari
 
 ```
-Baca Materi → Mengerj → Stuck → Coba Debug 15m → Minta Bantuan → Selesai → Review
+Baca Materi → Mengerjakan Tugas → Stuck → Coba Debug 15m → Minta Bantuan → Selesai → Review
 ```
 
 ## Cara Belajar yang Efektif
@@ -32,4 +32,4 @@ Di akhir setiap hari, catat:
 - Apa yang masih membingungkan
 - Satu hal yang "aha moment"
 
-Simpan di folder `docs/journal/` jika ingin.
+Simpan di folder `notes/journal/` jika ingin.

@@ -12,7 +12,7 @@
 ### ✅ DIPERBOLEHKAN (dengan syarat):
 1. **Bertanya konsep** — "Jelaskan cara kerja closure dengan analogi."
 2. **Meminta bantuan debug** — Tapi hanya setelah 15 menit mencoba sendiri.
-3. **Meminta code review** — Setelah selesai, kode boleh dikirim ke saya untuk direview.
+3. **Meminta code review** — Setelah selesai, kode boleh dikirim ke AI untuk direview.
 4. **Membaca dokumentasi** — Selalu prioritaskan docs resmi (react.dev, nextjs.org, typescriptlang.org, developer.mozilla.org).
 
 ## Cara Minta Tolong
@@ -42,4 +42,4 @@ Yang saya ragu: [bagian yang menurut saya kurang yakin]
 2. **Console.log** setiap variable yang mencurigakan.
 3. **Google error message** — 90% error sudah pernah dialami orang lain.
 4. **Simplifikasi masalah** — bikin kode seminimal mungkin yang mereproduksi error.
-5. **Kalo 30 menit mentok** — baru minta tolong.
+5. **Kalo 30 menit mentok** — baru minta tolong kepada AI.
