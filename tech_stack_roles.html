@@ -1,0 +1,2136 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Stack per Role</title>
+  <link rel="icon" href="assets/favicons/favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
+  </script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --neu-bg: #e2e6ec;
+      --card-bg: #e2e6ec;
+      --text-primary: #2d333b;
+      --text-secondary: #555b63;
+      --text-muted: #8a9098;
+      --shadow-extrude: 8px 8px 16px #c5c9cf, -8px -8px 16px #ffffff;
+      --shadow-extrude-sm: 5px 5px 10px #c5c9cf, -5px -5px 10px #ffffff;
+      --shadow-inset: inset 3px 3px 6px #c5c9cf, inset -3px -3px 6px #ffffff;
+      --shadow-pressed: inset 5px 5px 10px #c5c9cf, inset -5px -5px 10px #ffffff;
+      --shadow-tag: inset 2px 2px 4px #c5c9cf, inset -2px -2px 4px #ffffff;
+      --shadow-node: 3px 3px 7px #c5c9cf, -3px -3px 7px #ffffff;
+      --radius-sm: 10px;
+      --radius-md: 18px;
+      --radius-lg: 28px;
+      --radius-pill: 999px;
+      --line-color: #c5c9cf;
+      --transition: 0.3s cubic-bezier(.34, 1.56, .64, 1);
+      --blue-bg: #d4e3f2;
+      --blue-text: #1a4f7a;
+      --teal-bg: #d2ece4;
+      --teal-text: #085a45;
+      --coral-bg: #f0d6c8;
+      --coral-text: #70301c;
+      --purple-bg: #dcdaf0;
+      --purple-text: #3a3285;
+      --amber-bg: #f0dec0;
+      --amber-text: #633d0e;
+      --green-bg: #dae8c8;
+      --green-text: #2a5508;
+      --gray-bg: #dedcd2;
+      --gray-text: #484842;
+      --pink-bg: #f0d2de;
+      --pink-text: #722642;
+      --red-bg: #f0d2d2;
+      --red-text: #722626;
+    }
+
+    html.dark-theme {
+      --neu-bg: #2d333b;
+      --card-bg: #2d333b;
+      --text-primary: #e2e6ec;
+      --text-secondary: #b0b5bc;
+      --text-muted: #6e747c;
+      --shadow-extrude: 8px 8px 16px #23282f, -8px -8px 16px #373e48;
+      --shadow-extrude-sm: 5px 5px 10px #23282f, -5px -5px 10px #373e48;
+      --shadow-inset: inset 3px 3px 6px #23282f, inset -3px -3px 6px #373e48;
+      --shadow-pressed: inset 5px 5px 10px #23282f, inset -5px -5px 10px #373e48;
+      --shadow-tag: inset 2px 2px 4px #23282f, inset -2px -2px 4px #373e48;
+      --shadow-node: 3px 3px 7px #23282f, -3px -3px 7px #373e48;
+      --line-color: #3e444e;
+      --blue-bg: #16334d;
+      --blue-text: #9cc1e0;
+      --teal-bg: #0a3d2e;
+      --teal-text: #7dd4bc;
+      --coral-bg: #542614;
+      --coral-text: #e0b4a0;
+      --purple-bg: #282260;
+      --purple-text: #bcb8e4;
+      --amber-bg: #4a300c;
+      --amber-text: #e0c070;
+      --green-bg: #1a3808;
+      --green-text: #acd484;
+      --gray-bg: #383830;
+      --gray-text: #c4c2b4;
+      --pink-bg: #542036;
+      --pink-text: #e0acc4;
+      --red-bg: #542020;
+      --red-text: #e0acac;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--neu-bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .container {
+      max-width: 1100px;
+      width: 100%;
+      padding: 32px 24px 60px
+    }
+
+    .theme-toggle-wrap {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px
+    }
+
+    #theme-toggle {
+      display: none
+    }
+
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 6px 14px 6px 6px;
+      border-radius: var(--radius-pill);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-extrude-sm);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: var(--transition);
+    }
+
+    .toggle-label:hover {
+      transform: scale(1.03)
+    }
+
+    .toggle-track {
+      width: 44px;
+      height: 24px;
+      border-radius: var(--radius-pill);
+      background: var(--neu-bg);
+      box-shadow: var(--shadow-inset);
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .toggle-knob {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      box-shadow: var(--shadow-extrude-sm);
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: transform var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toggle-knob i {
+      font-size: 10px;
+      color: var(--text-muted);
+      transition: var(--transition)
+    }
+
+    #theme-toggle:checked+.toggle-label .toggle-knob {
+      transform: translateX(20px)
+    }
+
+    .toggle-label .icon-label {
+      transition: var(--transition)
+    }
+
+    .toggle-label .icon-label::before {
+      content: attr(data-light)
+    }
+
+    html.dark-theme .toggle-label .icon-label::before {
+      content: attr(data-dark)
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .page-title i {
+      color: var(--text-muted);
+      font-size: 24px
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      font-weight: 400
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-extrude-sm);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 4px
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      padding-top: 12px;
+    }
+
+    .section-label i {
+      font-size: 18px;
+      color: var(--text-muted)
+    }
+
+    .role-table {
+      margin-bottom: 24px;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-extrude);
+      transition: box-shadow var(--transition), background var(--transition);
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .tables-wrap .role-table:nth-child(1) {
+      animation-delay: 0.05s
+    }
+
+    .tables-wrap .role-table:nth-child(2) {
+      animation-delay: 0.10s
+    }
+
+    .tables-wrap .role-table:nth-child(3) {
+      animation-delay: 0.15s
+    }
+
+    .tables-wrap .role-table:nth-child(4) {
+      animation-delay: 0.20s
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px)
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .role-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--line-color);
+      flex-wrap: wrap;
+    }
+
+    .role-header i {
+      font-size: 20px
+    }
+
+    .role-progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 140px;
+      justify-content: flex-end;
+    }
+
+    .role-progress .bar-track {
+      flex: 1;
+      max-width: 160px;
+      height: 8px;
+      border-radius: var(--radius-pill);
+      background: var(--neu-bg);
+      box-shadow: var(--shadow-inset);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .role-progress .bar-fill {
+      height: 100%;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(135deg, var(--teal-text), var(--blue-text));
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .role-progress .bar-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .table-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px 16px
+    }
+
+    .table-cat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      padding: 6px 0;
+      min-width: 130px;
+    }
+
+    .table-cat i {
+      font-size: 14px;
+      width: 18px;
+      text-align: center
+    }
+
+    .tags-area {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 4px 0
+    }
+
+    .tag {
+      font-size: 12px;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      font-weight: 500;
+      transition: var(--transition);
+      cursor: pointer;
+      background: var(--gray-bg);
+      color: var(--gray-text);
+      box-shadow: var(--shadow-tag);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      overflow-wrap: break-word;
+      max-width: 100%;
+    }
+
+    .tag:hover {
+      transform: scale(1.06)
+    }
+
+    .tag input.tag-cb {
+      display: none
+    }
+
+    .tag-chk {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 2px solid currentColor;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .25s;
+    }
+
+    .tag-checked .tag-chk {
+      background: currentColor;
+      border-color: currentColor;
+    }
+
+    .tag-checked .tag-chk::after {
+      content: '';
+      width: 4px;
+      height: 8px;
+      border: solid var(--card-bg);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      position: absolute;
+      top: 2px;
+    }
+
+    .tag-checked {
+      opacity: 0.88;
+      transform: scale(1.04);
+    }
+
+    .tag-checked:hover {
+      transform: scale(1.08)
+    }
+
+    .tag-blue {
+      background: var(--blue-bg);
+      color: var(--blue-text)
+    }
+
+    .tag-teal {
+      background: var(--teal-bg);
+      color: var(--teal-text)
+    }
+
+    .tag-coral {
+      background: var(--coral-bg);
+      color: var(--coral-text)
+    }
+
+    .tag-purple {
+      background: var(--purple-bg);
+      color: var(--purple-text)
+    }
+
+    .tag-amber {
+      background: var(--amber-bg);
+      color: var(--amber-text)
+    }
+
+    .tag-green {
+      background: var(--green-bg);
+      color: var(--green-text)
+    }
+
+    .tag-gray {
+      background: var(--gray-bg);
+      color: var(--gray-text)
+    }
+
+    .tag-pink {
+      background: var(--pink-bg);
+      color: var(--pink-text)
+    }
+
+    .tag-red {
+      background: var(--red-bg);
+      color: var(--red-text)
+    }
+
+    .mindmap-wrap {
+      padding: 32px 16px;
+      border-radius: var(--radius-lg);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-extrude);
+      animation: fadeUp 0.5s 0.25s ease both;
+      overflow: hidden;
+    }
+
+    .mindmap {
+      width: 100%;
+      overflow-x: auto;
+      padding: 10px 0 20px;
+    }
+
+    .mm-root {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0;
+      position: relative
+    }
+
+    .mm-root-node {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border-radius: var(--radius-pill);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-extrude-sm);
+      font-size: 18px;
+      font-weight: 700;
+      position: relative;
+      z-index: 2;
+    }
+
+    .mm-connector {
+      height: 28px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .mm-connector::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: var(--line-color);
+      border-radius: 2px
+    }
+
+    .mm-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+      margin: 0 auto;
+      padding: 0 10px;
+    }
+
+    .mm-row.mm-roles {
+      gap: 16px
+    }
+
+    .mm-role-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      max-width: 200px;
+      min-width: 120px
+    }
+
+    .mm-roles::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      width: 80%;
+      height: 2px;
+      background: var(--line-color);
+      border-radius: 2px;
+      align-self: flex-start;
+    }
+
+    .mm-role-node {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 8px;
+      border-radius: var(--radius-md);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-node);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: default;
+      position: relative;
+      z-index: 2;
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .mm-role-node i {
+      font-size: 15px
+    }
+
+    .mm-role-node:hover {
+      transform: scale(1.04);
+      box-shadow: var(--shadow-extrude-sm)
+    }
+
+    .mm-role-col>.mm-connector {
+      height: 20px
+    }
+
+    .mm-role-col>.mm-connector::before {
+      height: 100%
+    }
+
+    .mm-cats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 5px;
+      position: relative;
+    }
+
+    .mm-cats-wrap {
+      position: relative;
+      width: 100%
+    }
+
+    .mm-cats-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 15%;
+      width: 70%;
+      height: 2px;
+      background: var(--line-color);
+      border-radius: 2px;
+    }
+
+    .mm-cat-node {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: default;
+      box-shadow: var(--shadow-tag);
+      transition: var(--transition);
+    }
+
+    .progress-section {
+      animation: fadeUp 0.5s 0.30s ease both;
+    }
+
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .summary-card {
+      padding: 20px 18px;
+      border-radius: var(--radius-md);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-extrude-sm);
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .summary-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-extrude);
+    }
+
+    .summary-card .num {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+    }
+
+    .summary-card .num.teal {
+      color: var(--teal-text)
+    }
+
+    .summary-card .num.green {
+      color: var(--green-text)
+    }
+
+    .summary-card .num.amber {
+      color: var(--amber-text)
+    }
+
+    .summary-card .num.coral {
+      color: var(--coral-text)
+    }
+
+    .summary-card .num.red {
+      color: var(--red-text)
+    }
+
+    .summary-card .num.blue {
+      color: var(--blue-text)
+    }
+
+    .summary-card .lbl {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .chart-card {
+      padding: 20px;
+      border-radius: var(--radius-md);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-extrude-sm);
+    }
+
+    .chart-card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .chart-card canvas {
+      max-height: 220px;
+      max-width: 100%;
+      width: 100% !important;
+      display: block;
+      min-height: 140px;
+      aspect-ratio: 16 / 9;
+    }
+
+    .chart-card {
+      overflow: hidden;
+    }
+
+    .per-role-bars {
+      margin-bottom: 28px;
+    }
+
+    .per-role-bars .pr-table {
+      margin-bottom: 18px;
+      padding: 18px;
+      border-radius: var(--radius-md);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-extrude-sm);
+    }
+
+    .pr-table .pr-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pr-bar-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 50px;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .pr-bar-row .pr-cat {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-align: left;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pr-bar-row .pr-bar-track {
+      flex: 1;
+      height: 18px;
+      border-radius: var(--radius-pill);
+      background: var(--neu-bg);
+      box-shadow: var(--shadow-inset);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .pr-bar-row .pr-bar-fill {
+      height: 100%;
+      border-radius: var(--radius-pill);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .pr-bar-row .pr-bar-num {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      min-width: 32px;
+      text-align: right;
+    }
+
+    .reset-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .btn-reset {
+      padding: 12px 32px;
+      border-radius: var(--radius-pill);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-extrude-sm);
+      border: none;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--red-text);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-reset:hover {
+      transform: scale(1.04);
+      box-shadow: var(--shadow-extrude);
+    }
+
+    .btn-reset:active {
+      box-shadow: var(--shadow-pressed)
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1; pointer-events: auto;
+    }
+    .modal-dialog {
+      background: var(--card-bg);
+      box-shadow: var(--shadow-extrude);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px 24px;
+      max-width: 400px; width: 90%;
+      text-align: center;
+      transform: scale(0.92) translateY(12px);
+      transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+    }
+    .modal-overlay.active .modal-dialog {
+      transform: scale(1) translateY(0);
+    }
+    .modal-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--red-bg); color: var(--red-text);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px; font-size: 24px;
+      box-shadow: var(--shadow-inset);
+    }
+    .modal-title {
+      font-size: 18px; font-weight: 700; margin-bottom: 8px;
+    }
+    .modal-desc {
+      font-size: 14px; color: var(--text-secondary);
+      line-height: 1.5; margin-bottom: 24px;
+    }
+    .modal-actions {
+      display: flex; gap: 12px; justify-content: center;
+    }
+    .modal-btn {
+      padding: 10px 24px; border-radius: var(--radius-pill);
+      border: none; font-family: inherit; font-size: 14px;
+      font-weight: 600; cursor: pointer;
+      transition: var(--transition);
+    }
+    .modal-btn:hover { transform: scale(1.04); }
+    .modal-btn:active { transform: scale(0.97); }
+    .modal-btn-cancel {
+      background: var(--card-bg);
+      box-shadow: var(--shadow-extrude-sm);
+      color: var(--text-secondary);
+    }
+    .modal-btn-cancel:hover { box-shadow: var(--shadow-extrude); }
+    .modal-btn-confirm {
+      background: var(--red-bg); color: var(--red-text);
+      box-shadow: var(--shadow-inset);
+    }
+    .modal-btn-confirm:hover { opacity: 0.85; }
+
+    @media(max-width:700px) {
+      .summary-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+      .summary-card .num {
+        font-size: 26px;
+      }
+      .mm-row.mm-roles {
+        flex-wrap: wrap;
+        gap: 12px
+      }
+      .mm-role-col {
+        max-width: 160px;
+        min-width: 90px
+      }
+      .mm-roles::before {
+        display: none
+      }
+      .mm-connector {
+        height: 16px
+      }
+      .mm-cat-node {
+        font-size: 10px;
+        padding: 3px 8px
+      }
+      .role-header {
+        font-size: 16px
+      }
+      .table-grid {
+        grid-template-columns: 1fr
+      }
+      .table-cat {
+        min-width: auto
+      }
+      .page-title {
+        font-size: 22px
+      }
+      .legend {
+        padding: 12px 14px
+      }
+      .role-table {
+        padding: 16px
+      }
+      .role-progress {
+        flex-basis: 100%;
+        justify-content: flex-start;
+        margin-top: 6px;
+      }
+      .role-progress .bar-track {
+        max-width: 100%;
+      }
+      .pr-bar-row {
+        grid-template-columns: 80px 1fr 40px;
+        gap: 8px;
+      }
+      .pr-bar-row .pr-cat {
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle-wrap">
+      <input type="checkbox" id="theme-toggle">
+      <label for="theme-toggle" class="toggle-label">
+        <span class="toggle-track"><span class="toggle-knob"><i class="bi-moon-fill"></i></span></span>
+        <span class="icon-label" data-light="Light" data-dark="Dark"></span>
+      </label>
+    </div>
+
+    <!-- Title -->
+    <h1 class="page-title"><i class="bi-layers"></i>Tech Stack per Role</h1>
+    <p class="page-subtitle">Referensi teknologi yang umum digunakan berdasarkan peran developer &mdash; klik tag untuk menandai sudah dikuasai</p>
+
+    <!-- Legend -->
+    <div class="legend">
+      <span class="legend-item"><span class="legend-dot" style="background:var(--blue-text)"></span>Languages</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--teal-text)"></span>Frameworks / Library</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--purple-text)"></span>Build / Tooling</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--coral-text)"></span>Database</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--amber-text)"></span>DevOps / Infra</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--green-text)"></span>Testing</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--gray-text)"></span>Tools &amp; Other</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--pink-text)"></span>API / Protocol</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--red-text)"></span>Security / Concurrency</span>
+    </div>
+
+    <!-- ======== TABLE VIEW ======== -->
+    <h2 class="section-label"><i class="bi-table"></i>Table View</h2>
+
+    <div class="tables-wrap">
+
+      <!-- -- Frontend Developer -- -->
+      <div class="role-table" data-role="frontend">
+        <div class="role-header">
+          <i class="bi-window-stack" style="color:var(--teal-text)"></i>Frontend Developer
+          <div class="role-progress">
+            <span class="bar-text" data-text="0 / 0">0 / 0 mastered</span>
+            <span class="bar-track"><span class="bar-fill"></span></span>
+          </div>
+        </div>
+        <div class="table-grid">
+          <div class="table-cat"><i class="bi-code-slash"></i>Languages</div>
+          <div class="tags-area" data-cat="Languages">
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="HTML5"><span class="tag-chk"></span><span>HTML5</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="CSS3"><span class="tag-chk"></span><span>CSS3</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="JavaScript (ES6+)"><span class="tag-chk"></span><span>JavaScript (ES6+)</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="TypeScript"><span class="tag-chk"></span><span>TypeScript</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Sass / SCSS"><span class="tag-chk"></span><span>Sass / SCSS</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Less"><span class="tag-chk"></span><span>Less</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-boxes"></i>Frameworks &mdash; UI</div>
+          <div class="tags-area" data-cat="Frameworks — UI">
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="React"><span class="tag-chk"></span><span>React</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Next.js"><span class="tag-chk"></span><span>Next.js</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Vue.js"><span class="tag-chk"></span><span>Vue.js</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Nuxt.js"><span class="tag-chk"></span><span>Nuxt.js</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Angular"><span class="tag-chk"></span><span>Angular</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Svelte"><span class="tag-chk"></span><span>Svelte</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="SvelteKit"><span class="tag-chk"></span><span>SvelteKit</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Solid.js"><span class="tag-chk"></span><span>Solid.js</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Astro"><span class="tag-chk"></span><span>Astro</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Remix"><span class="tag-chk"></span><span>Remix</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Qwik"><span class="tag-chk"></span><span>Qwik</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Lit"><span class="tag-chk"></span><span>Lit</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Alpine.js"><span class="tag-chk"></span><span>Alpine.js</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="htmx"><span class="tag-chk"></span><span>htmx</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-palette"></i>Styling &amp; UI Kits</div>
+          <div class="tags-area" data-cat="Styling &amp; UI Kits">
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Tailwind CSS"><span class="tag-chk"></span><span>Tailwind CSS</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Bootstrap"><span class="tag-chk"></span><span>Bootstrap</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="MUI"><span class="tag-chk"></span><span>MUI</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Chakra UI"><span class="tag-chk"></span><span>Chakra UI</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="shadcn/ui"><span class="tag-chk"></span><span>shadcn/ui</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Radix UI"><span class="tag-chk"></span><span>Radix UI</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Ant Design"><span class="tag-chk"></span><span>Ant Design</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Headless UI"><span class="tag-chk"></span><span>Headless UI</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Styled Components"><span class="tag-chk"></span><span>Styled Components</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Emotion"><span class="tag-chk"></span><span>Emotion</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="CSS Modules"><span class="tag-chk"></span><span>CSS Modules</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Framer Motion"><span class="tag-chk"></span><span>Framer Motion</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="GSAP"><span class="tag-chk"></span><span>GSAP</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-diagram-3"></i>State Management</div>
+          <div class="tags-area" data-cat="State Management">
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Redux Toolkit"><span class="tag-chk"></span><span>Redux Toolkit</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Zustand"><span class="tag-chk"></span><span>Zustand</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Jotai"><span class="tag-chk"></span><span>Jotai</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Recoil"><span class="tag-chk"></span><span>Recoil</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="MobX"><span class="tag-chk"></span><span>MobX</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Pinia"><span class="tag-chk"></span><span>Pinia</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="XState"><span class="tag-chk"></span><span>XState</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="TanStack Query"><span class="tag-chk"></span><span>TanStack Query</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-gear"></i>Build &amp; Bundlers</div>
+          <div class="tags-area" data-cat="Build &amp; Bundlers">
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Vite"><span class="tag-chk"></span><span>Vite</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Webpack"><span class="tag-chk"></span><span>Webpack</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Rollup"><span class="tag-chk"></span><span>Rollup</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="esbuild"><span class="tag-chk"></span><span>esbuild</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Parcel"><span class="tag-chk"></span><span>Parcel</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Turbopack"><span class="tag-chk"></span><span>Turbopack</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Babel"><span class="tag-chk"></span><span>Babel</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="SWC"><span class="tag-chk"></span><span>SWC</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="PostCSS"><span class="tag-chk"></span><span>PostCSS</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-box-seam"></i>Package Managers</div>
+          <div class="tags-area" data-cat="Package Managers">
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="npm"><span class="tag-chk"></span><span>npm</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="yarn"><span class="tag-chk"></span><span>yarn</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="pnpm"><span class="tag-chk"></span><span>pnpm</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="bun"><span class="tag-chk"></span><span>bun</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-plug"></i>API &amp; Data Fetching</div>
+          <div class="tags-area" data-cat="API &amp; Data Fetching">
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="REST"><span class="tag-chk"></span><span>REST</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="GraphQL"><span class="tag-chk"></span><span>GraphQL</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="Apollo Client"><span class="tag-chk"></span><span>Apollo Client</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="tRPC"><span class="tag-chk"></span><span>tRPC</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="Axios"><span class="tag-chk"></span><span>Axios</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="Fetch API"><span class="tag-chk"></span><span>Fetch API</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="SWR"><span class="tag-chk"></span><span>SWR</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="WebSocket"><span class="tag-chk"></span><span>WebSocket</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="SSE"><span class="tag-chk"></span><span>SSE</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-check2-square"></i>Testing</div>
+          <div class="tags-area" data-cat="Testing">
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Jest"><span class="tag-chk"></span><span>Jest</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Vitest"><span class="tag-chk"></span><span>Vitest</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="React Testing Library"><span class="tag-chk"></span><span>React Testing Library</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Cypress"><span class="tag-chk"></span><span>Cypress</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Playwright"><span class="tag-chk"></span><span>Playwright</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Storybook"><span class="tag-chk"></span><span>Storybook</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Chromatic"><span class="tag-chk"></span><span>Chromatic</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-brush"></i>Linting &amp; Formatting</div>
+          <div class="tags-area" data-cat="Linting &amp; Formatting">
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="ESLint"><span class="tag-chk"></span><span>ESLint</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Prettier"><span class="tag-chk"></span><span>Prettier</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Stylelint"><span class="tag-chk"></span><span>Stylelint</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Husky"><span class="tag-chk"></span><span>Husky</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="lint-staged"><span class="tag-chk"></span><span>lint-staged</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-wrench-adjustable"></i>Tools &amp; Other</div>
+          <div class="tags-area" data-cat="Tools &amp; Other">
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Git"><span class="tag-chk"></span><span>Git</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="GitHub / GitLab"><span class="tag-chk"></span><span>GitHub / GitLab</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Figma"><span class="tag-chk"></span><span>Figma</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Chrome DevTools"><span class="tag-chk"></span><span>Chrome DevTools</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Lighthouse"><span class="tag-chk"></span><span>Lighthouse</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="VS Code"><span class="tag-chk"></span><span>VS Code</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Vercel"><span class="tag-chk"></span><span>Vercel</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Netlify"><span class="tag-chk"></span><span>Netlify</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="PWA / SW"><span class="tag-chk"></span><span>PWA / SW</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Web Vitals"><span class="tag-chk"></span><span>Web Vitals</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Accessibility"><span class="tag-chk"></span><span>Accessibility</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- -- Backend Developer -- -->
+      <div class="role-table" data-role="backend">
+        <div class="role-header">
+          <i class="bi-server" style="color:var(--amber-text)"></i>Backend Developer
+          <div class="role-progress">
+            <span class="bar-text" data-text="0 / 0">0 / 0 mastered</span>
+            <span class="bar-track"><span class="bar-fill"></span></span>
+          </div>
+        </div>
+        <div class="table-grid">
+          <div class="table-cat"><i class="bi-code-slash"></i>Languages</div>
+          <div class="tags-area" data-cat="Languages">
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Node.js (JS)"><span class="tag-chk"></span><span>Node.js (JS)</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="TypeScript"><span class="tag-chk"></span><span>TypeScript</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Python"><span class="tag-chk"></span><span>Python</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Java"><span class="tag-chk"></span><span>Java</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Kotlin"><span class="tag-chk"></span><span>Kotlin</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Go"><span class="tag-chk"></span><span>Go</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Rust"><span class="tag-chk"></span><span>Rust</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="C#"><span class="tag-chk"></span><span>C#</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="PHP"><span class="tag-chk"></span><span>PHP</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Ruby"><span class="tag-chk"></span><span>Ruby</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Scala"><span class="tag-chk"></span><span>Scala</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Elixir"><span class="tag-chk"></span><span>Elixir</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-boxes"></i>Frameworks</div>
+          <div class="tags-area" data-cat="Frameworks">
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Express.js"><span class="tag-chk"></span><span>Express.js</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Fastify"><span class="tag-chk"></span><span>Fastify</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="NestJS"><span class="tag-chk"></span><span>NestJS</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Hono"><span class="tag-chk"></span><span>Hono</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Django"><span class="tag-chk"></span><span>Django</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="FastAPI"><span class="tag-chk"></span><span>FastAPI</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Flask"><span class="tag-chk"></span><span>Flask</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Spring Boot"><span class="tag-chk"></span><span>Spring Boot</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Ktor"><span class="tag-chk"></span><span>Ktor</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Gin"><span class="tag-chk"></span><span>Gin</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Echo"><span class="tag-chk"></span><span>Echo</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Fiber"><span class="tag-chk"></span><span>Fiber</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="ASP.NET Core"><span class="tag-chk"></span><span>ASP.NET Core</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Laravel"><span class="tag-chk"></span><span>Laravel</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Symfony"><span class="tag-chk"></span><span>Symfony</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Ruby on Rails"><span class="tag-chk"></span><span>Ruby on Rails</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Phoenix"><span class="tag-chk"></span><span>Phoenix</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Actix-web"><span class="tag-chk"></span><span>Actix-web</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-database"></i>Databases &mdash; SQL</div>
+          <div class="tags-area" data-cat="Databases — SQL">
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="PostgreSQL"><span class="tag-chk"></span><span>PostgreSQL</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="MySQL"><span class="tag-chk"></span><span>MySQL</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="MariaDB"><span class="tag-chk"></span><span>MariaDB</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="SQLite"><span class="tag-chk"></span><span>SQLite</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="SQL Server"><span class="tag-chk"></span><span>SQL Server</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Oracle DB"><span class="tag-chk"></span><span>Oracle DB</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-database-gear"></i>Databases &mdash; NoSQL</div>
+          <div class="tags-area" data-cat="Databases — NoSQL">
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="MongoDB"><span class="tag-chk"></span><span>MongoDB</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Redis"><span class="tag-chk"></span><span>Redis</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Cassandra"><span class="tag-chk"></span><span>Cassandra</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="DynamoDB"><span class="tag-chk"></span><span>DynamoDB</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="CouchDB"><span class="tag-chk"></span><span>CouchDB</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Firestore"><span class="tag-chk"></span><span>Firestore</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Elasticsearch"><span class="tag-chk"></span><span>Elasticsearch</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Neo4j"><span class="tag-chk"></span><span>Neo4j</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="InfluxDB"><span class="tag-chk"></span><span>InfluxDB</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Supabase"><span class="tag-chk"></span><span>Supabase</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-layers"></i>ORM / Query Builders</div>
+          <div class="tags-area" data-cat="ORM / Query Builders">
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Prisma"><span class="tag-chk"></span><span>Prisma</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="TypeORM"><span class="tag-chk"></span><span>TypeORM</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Sequelize"><span class="tag-chk"></span><span>Sequelize</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Drizzle ORM"><span class="tag-chk"></span><span>Drizzle ORM</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Hibernate"><span class="tag-chk"></span><span>Hibernate</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="SQLAlchemy"><span class="tag-chk"></span><span>SQLAlchemy</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="ActiveRecord"><span class="tag-chk"></span><span>ActiveRecord</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Eloquent"><span class="tag-chk"></span><span>Eloquent</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Knex.js"><span class="tag-chk"></span><span>Knex.js</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-plug"></i>API &amp; Protocols</div>
+          <div class="tags-area" data-cat="API &amp; Protocols">
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="REST"><span class="tag-chk"></span><span>REST</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="GraphQL"><span class="tag-chk"></span><span>GraphQL</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="gRPC"><span class="tag-chk"></span><span>gRPC</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="WebSocket"><span class="tag-chk"></span><span>WebSocket</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="tRPC"><span class="tag-chk"></span><span>tRPC</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="SOAP"><span class="tag-chk"></span><span>SOAP</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="OpenAPI"><span class="tag-chk"></span><span>OpenAPI</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="JWT"><span class="tag-chk"></span><span>JWT</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="OAuth2"><span class="tag-chk"></span><span>OAuth2</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="OpenID Connect"><span class="tag-chk"></span><span>OpenID Connect</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-chat-dots"></i>Message Brokers</div>
+          <div class="tags-area" data-cat="Message Brokers">
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Apache Kafka"><span class="tag-chk"></span><span>Apache Kafka</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="RabbitMQ"><span class="tag-chk"></span><span>RabbitMQ</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Redis Pub/Sub"><span class="tag-chk"></span><span>Redis Pub/Sub</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="AWS SQS"><span class="tag-chk"></span><span>AWS SQS</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="NATS"><span class="tag-chk"></span><span>NATS</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="BullMQ"><span class="tag-chk"></span><span>BullMQ</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Celery"><span class="tag-chk"></span><span>Celery</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-speedometer2"></i>Caching</div>
+          <div class="tags-area" data-cat="Caching">
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Redis"><span class="tag-chk"></span><span>Redis</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Memcached"><span class="tag-chk"></span><span>Memcached</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Varnish"><span class="tag-chk"></span><span>Varnish</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="CDN Caching"><span class="tag-chk"></span><span>CDN Caching</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-shield-check"></i>Auth &amp; Security</div>
+          <div class="tags-area" data-cat="Auth &amp; Security">
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="JWT"><span class="tag-chk"></span><span>JWT</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="OAuth2"><span class="tag-chk"></span><span>OAuth2</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Passport.js"><span class="tag-chk"></span><span>Passport.js</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Auth0"><span class="tag-chk"></span><span>Auth0</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Keycloak"><span class="tag-chk"></span><span>Keycloak</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="bcrypt"><span class="tag-chk"></span><span>bcrypt</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="HTTPS / TLS"><span class="tag-chk"></span><span>HTTPS / TLS</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="CORS"><span class="tag-chk"></span><span>CORS</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Helmet.js"><span class="tag-chk"></span><span>Helmet.js</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-cloud-arrow-up"></i>DevOps &amp; Infra</div>
+          <div class="tags-area" data-cat="DevOps &amp; Infra">
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Docker"><span class="tag-chk"></span><span>Docker</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Kubernetes"><span class="tag-chk"></span><span>Kubernetes</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Nginx"><span class="tag-chk"></span><span>Nginx</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Apache"><span class="tag-chk"></span><span>Apache</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="PM2"><span class="tag-chk"></span><span>PM2</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="AWS"><span class="tag-chk"></span><span>AWS</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="GCP"><span class="tag-chk"></span><span>GCP</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Azure"><span class="tag-chk"></span><span>Azure</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Terraform"><span class="tag-chk"></span><span>Terraform</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="CI/CD (GH Actions)"><span class="tag-chk"></span><span>CI/CD (GH Actions)</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-check2-square"></i>Testing</div>
+          <div class="tags-area" data-cat="Testing">
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Jest"><span class="tag-chk"></span><span>Jest</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Supertest"><span class="tag-chk"></span><span>Supertest</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Pytest"><span class="tag-chk"></span><span>Pytest</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="JUnit"><span class="tag-chk"></span><span>JUnit</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Postman"><span class="tag-chk"></span><span>Postman</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="k6"><span class="tag-chk"></span><span>k6</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Artillery"><span class="tag-chk"></span><span>Artillery</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-wrench-adjustable"></i>Tools</div>
+          <div class="tags-area" data-cat="Tools">
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Git"><span class="tag-chk"></span><span>Git</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Linux CLI"><span class="tag-chk"></span><span>Linux CLI</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Shell / Bash"><span class="tag-chk"></span><span>Shell / Bash</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Winston / Pino"><span class="tag-chk"></span><span>Winston / Pino</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Prometheus + Grafana"><span class="tag-chk"></span><span>Prometheus + Grafana</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Sentry"><span class="tag-chk"></span><span>Sentry</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="OpenTelemetry"><span class="tag-chk"></span><span>OpenTelemetry</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- -- Full Stack Developer -- -->
+      <div class="role-table" data-role="fullstack">
+        <div class="role-header">
+          <i class="bi-stack" style="color:var(--purple-text)"></i>Full Stack Developer
+          <div class="role-progress">
+            <span class="bar-text" data-text="0 / 0">0 / 0 mastered</span>
+            <span class="bar-track"><span class="bar-fill"></span></span>
+          </div>
+        </div>
+        <div class="table-grid">
+          <div class="table-cat"><i class="bi-code-slash"></i>Languages</div>
+          <div class="tags-area" data-cat="Languages">
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="JavaScript / TypeScript"><span class="tag-chk"></span><span>JavaScript / TypeScript</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Python"><span class="tag-chk"></span><span>Python</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="PHP"><span class="tag-chk"></span><span>PHP</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Ruby"><span class="tag-chk"></span><span>Ruby</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Java"><span class="tag-chk"></span><span>Java</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Go"><span class="tag-chk"></span><span>Go</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="C#"><span class="tag-chk"></span><span>C#</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-window-stack"></i>Frontend Frameworks</div>
+          <div class="tags-area" data-cat="Frontend Frameworks">
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="React"><span class="tag-chk"></span><span>React</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Next.js"><span class="tag-chk"></span><span>Next.js</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Vue.js"><span class="tag-chk"></span><span>Vue.js</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Nuxt.js"><span class="tag-chk"></span><span>Nuxt.js</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Angular"><span class="tag-chk"></span><span>Angular</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Svelte / SvelteKit"><span class="tag-chk"></span><span>Svelte / SvelteKit</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Astro"><span class="tag-chk"></span><span>Astro</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Remix"><span class="tag-chk"></span><span>Remix</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-server"></i>Backend Frameworks</div>
+          <div class="tags-area" data-cat="Backend Frameworks">
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Express.js"><span class="tag-chk"></span><span>Express.js</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="NestJS"><span class="tag-chk"></span><span>NestJS</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Fastify"><span class="tag-chk"></span><span>Fastify</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Django"><span class="tag-chk"></span><span>Django</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="FastAPI"><span class="tag-chk"></span><span>FastAPI</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Laravel"><span class="tag-chk"></span><span>Laravel</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Ruby on Rails"><span class="tag-chk"></span><span>Ruby on Rails</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Spring Boot"><span class="tag-chk"></span><span>Spring Boot</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="ASP.NET Core"><span class="tag-chk"></span><span>ASP.NET Core</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-boxes"></i>Meta-Frameworks</div>
+          <div class="tags-area" data-cat="Meta-Frameworks">
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Next.js"><span class="tag-chk"></span><span>Next.js</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Nuxt.js"><span class="tag-chk"></span><span>Nuxt.js</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="SvelteKit"><span class="tag-chk"></span><span>SvelteKit</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Remix"><span class="tag-chk"></span><span>Remix</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Astro"><span class="tag-chk"></span><span>Astro</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="RedwoodJS"><span class="tag-chk"></span><span>RedwoodJS</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Blitz.js"><span class="tag-chk"></span><span>Blitz.js</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="T3 Stack"><span class="tag-chk"></span><span>T3 Stack</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-database"></i>Databases</div>
+          <div class="tags-area" data-cat="Databases">
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="PostgreSQL"><span class="tag-chk"></span><span>PostgreSQL</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="MySQL"><span class="tag-chk"></span><span>MySQL</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="SQLite"><span class="tag-chk"></span><span>SQLite</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="MongoDB"><span class="tag-chk"></span><span>MongoDB</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Redis"><span class="tag-chk"></span><span>Redis</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Supabase"><span class="tag-chk"></span><span>Supabase</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="PlanetScale"><span class="tag-chk"></span><span>PlanetScale</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Neon"><span class="tag-chk"></span><span>Neon</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Turso"><span class="tag-chk"></span><span>Turso</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Firestore"><span class="tag-chk"></span><span>Firestore</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-layers"></i>ORM / BaaS</div>
+          <div class="tags-area" data-cat="ORM / BaaS">
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Prisma"><span class="tag-chk"></span><span>Prisma</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Drizzle ORM"><span class="tag-chk"></span><span>Drizzle ORM</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="TypeORM"><span class="tag-chk"></span><span>TypeORM</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Supabase SDK"><span class="tag-chk"></span><span>Supabase SDK</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Firebase SDK"><span class="tag-chk"></span><span>Firebase SDK</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Appwrite"><span class="tag-chk"></span><span>Appwrite</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Convex"><span class="tag-chk"></span><span>Convex</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-plug"></i>API Layer</div>
+          <div class="tags-area" data-cat="API Layer">
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="REST"><span class="tag-chk"></span><span>REST</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="GraphQL"><span class="tag-chk"></span><span>GraphQL</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="tRPC"><span class="tag-chk"></span><span>tRPC</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="WebSocket"><span class="tag-chk"></span><span>WebSocket</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="OpenAPI"><span class="tag-chk"></span><span>OpenAPI</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="JWT / OAuth2"><span class="tag-chk"></span><span>JWT / OAuth2</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-palette"></i>Styling</div>
+          <div class="tags-area" data-cat="Styling">
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Tailwind CSS"><span class="tag-chk"></span><span>Tailwind CSS</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Sass / SCSS"><span class="tag-chk"></span><span>Sass / SCSS</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Bootstrap"><span class="tag-chk"></span><span>Bootstrap</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="shadcn/ui"><span class="tag-chk"></span><span>shadcn/ui</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Styled Components"><span class="tag-chk"></span><span>Styled Components</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-cloud-arrow-up"></i>Deployment &amp; Infra</div>
+          <div class="tags-area" data-cat="Deployment &amp; Infra">
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Vercel"><span class="tag-chk"></span><span>Vercel</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Netlify"><span class="tag-chk"></span><span>Netlify</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Railway"><span class="tag-chk"></span><span>Railway</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Render"><span class="tag-chk"></span><span>Render</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Fly.io"><span class="tag-chk"></span><span>Fly.io</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Docker"><span class="tag-chk"></span><span>Docker</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="AWS"><span class="tag-chk"></span><span>AWS</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="GCP"><span class="tag-chk"></span><span>GCP</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="GH Actions"><span class="tag-chk"></span><span>GH Actions</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-check2-square"></i>Testing</div>
+          <div class="tags-area" data-cat="Testing">
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Vitest"><span class="tag-chk"></span><span>Vitest</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Jest"><span class="tag-chk"></span><span>Jest</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Playwright"><span class="tag-chk"></span><span>Playwright</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Cypress"><span class="tag-chk"></span><span>Cypress</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Testing Library"><span class="tag-chk"></span><span>Testing Library</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-wrench-adjustable"></i>Tools</div>
+          <div class="tags-area" data-cat="Tools">
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Git"><span class="tag-chk"></span><span>Git</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="VS Code"><span class="tag-chk"></span><span>VS Code</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Postman / Insomnia"><span class="tag-chk"></span><span>Postman / Insomnia</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Figma"><span class="tag-chk"></span><span>Figma</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Turborepo"><span class="tag-chk"></span><span>Turborepo</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Nx"><span class="tag-chk"></span><span>Nx</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Monorepo Tools"><span class="tag-chk"></span><span>Monorepo Tools</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- -- Software Engineer -- -->
+      <div class="role-table" data-role="software">
+        <div class="role-header">
+          <i class="bi-cpu" style="color:var(--red-text)"></i>Software Engineer
+          <div class="role-progress">
+            <span class="bar-text" data-text="0 / 0">0 / 0 mastered</span>
+            <span class="bar-track"><span class="bar-fill"></span></span>
+          </div>
+        </div>
+        <div class="table-grid">
+          <div class="table-cat"><i class="bi-code-slash"></i>Core Languages</div>
+          <div class="tags-area" data-cat="Core Languages">
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="C"><span class="tag-chk"></span><span>C</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="C++"><span class="tag-chk"></span><span>C++</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Java"><span class="tag-chk"></span><span>Java</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Kotlin"><span class="tag-chk"></span><span>Kotlin</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Python"><span class="tag-chk"></span><span>Python</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Go"><span class="tag-chk"></span><span>Go</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Rust"><span class="tag-chk"></span><span>Rust</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="C#"><span class="tag-chk"></span><span>C#</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Swift"><span class="tag-chk"></span><span>Swift</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Dart"><span class="tag-chk"></span><span>Dart</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Scala"><span class="tag-chk"></span><span>Scala</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Haskell"><span class="tag-chk"></span><span>Haskell</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Elixir"><span class="tag-chk"></span><span>Elixir</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="R"><span class="tag-chk"></span><span>R</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="MATLAB"><span class="tag-chk"></span><span>MATLAB</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-phone"></i>Mobile Development</div>
+          <div class="tags-area" data-cat="Mobile Development">
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Android SDK"><span class="tag-chk"></span><span>Android SDK</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="iOS / UIKit / SwiftUI"><span class="tag-chk"></span><span>iOS / UIKit / SwiftUI</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="React Native"><span class="tag-chk"></span><span>React Native</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Flutter"><span class="tag-chk"></span><span>Flutter</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Jetpack Compose"><span class="tag-chk"></span><span>Jetpack Compose</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Expo"><span class="tag-chk"></span><span>Expo</span></label>
+            <label class="tag tag-teal"><input type="checkbox" class="tag-cb" data-key="Capacitor"><span class="tag-chk"></span><span>Capacitor</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-cpu"></i>Systems &amp; Embedded</div>
+          <div class="tags-area" data-cat="Systems &amp; Embedded">
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Assembly"><span class="tag-chk"></span><span>Assembly</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="C (Bare Metal)"><span class="tag-chk"></span><span>C (Bare Metal)</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="RTOS"><span class="tag-chk"></span><span>RTOS</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="Linux Kernel"><span class="tag-chk"></span><span>Linux Kernel</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="CUDA"><span class="tag-chk"></span><span>CUDA</span></label>
+            <label class="tag tag-blue"><input type="checkbox" class="tag-cb" data-key="OpenCL"><span class="tag-chk"></span><span>OpenCL</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-diagram-3"></i>DSA</div>
+          <div class="tags-area" data-cat="DSA">
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Sorting & Searching"><span class="tag-chk"></span><span>Sorting &amp; Searching</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Graph Algorithms"><span class="tag-chk"></span><span>Graph Algorithms</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Dynamic Programming"><span class="tag-chk"></span><span>Dynamic Programming</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Trees & Heaps"><span class="tag-chk"></span><span>Trees &amp; Heaps</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Hash Maps"><span class="tag-chk"></span><span>Hash Maps</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Big-O Analysis"><span class="tag-chk"></span><span>Big-O Analysis</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-layers"></i>Architecture &amp; Design</div>
+          <div class="tags-area" data-cat="Architecture &amp; Design">
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="OOP"><span class="tag-chk"></span><span>OOP</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Functional Programming"><span class="tag-chk"></span><span>Functional Programming</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Microservices"><span class="tag-chk"></span><span>Microservices</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Event-Driven"><span class="tag-chk"></span><span>Event-Driven</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="SOLID"><span class="tag-chk"></span><span>SOLID</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="DDD"><span class="tag-chk"></span><span>DDD</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="CQRS"><span class="tag-chk"></span><span>CQRS</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="Hexagonal"><span class="tag-chk"></span><span>Hexagonal</span></label>
+            <label class="tag tag-purple"><input type="checkbox" class="tag-cb" data-key="MVC / MVVM"><span class="tag-chk"></span><span>MVC / MVVM</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-database"></i>Databases &amp; Storage</div>
+          <div class="tags-area" data-cat="Databases &amp; Storage">
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="PostgreSQL"><span class="tag-chk"></span><span>PostgreSQL</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="MySQL"><span class="tag-chk"></span><span>MySQL</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="MongoDB"><span class="tag-chk"></span><span>MongoDB</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Redis"><span class="tag-chk"></span><span>Redis</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Cassandra"><span class="tag-chk"></span><span>Cassandra</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="DynamoDB"><span class="tag-chk"></span><span>DynamoDB</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="Elasticsearch"><span class="tag-chk"></span><span>Elasticsearch</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="S3 / Object Storage"><span class="tag-chk"></span><span>S3 / Object Storage</span></label>
+            <label class="tag tag-coral"><input type="checkbox" class="tag-cb" data-key="InfluxDB"><span class="tag-chk"></span><span>InfluxDB</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-cloud-arrow-up"></i>DevOps &amp; Infra</div>
+          <div class="tags-area" data-cat="DevOps &amp; Infra">
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Docker"><span class="tag-chk"></span><span>Docker</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Kubernetes"><span class="tag-chk"></span><span>Kubernetes</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Helm"><span class="tag-chk"></span><span>Helm</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Terraform"><span class="tag-chk"></span><span>Terraform</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Ansible"><span class="tag-chk"></span><span>Ansible</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Pulumi"><span class="tag-chk"></span><span>Pulumi</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="AWS"><span class="tag-chk"></span><span>AWS</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="GCP"><span class="tag-chk"></span><span>GCP</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Azure"><span class="tag-chk"></span><span>Azure</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="CI/CD"><span class="tag-chk"></span><span>CI/CD</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="GH Actions"><span class="tag-chk"></span><span>GH Actions</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Jenkins"><span class="tag-chk"></span><span>Jenkins</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="ArgoCD"><span class="tag-chk"></span><span>ArgoCD</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Prometheus"><span class="tag-chk"></span><span>Prometheus</span></label>
+            <label class="tag tag-amber"><input type="checkbox" class="tag-cb" data-key="Grafana"><span class="tag-chk"></span><span>Grafana</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-check2-square"></i>Testing &amp; Quality</div>
+          <div class="tags-area" data-cat="Testing &amp; Quality">
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Unit Testing"><span class="tag-chk"></span><span>Unit Testing</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Integration Testing"><span class="tag-chk"></span><span>Integration Testing</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="TDD / BDD"><span class="tag-chk"></span><span>TDD / BDD</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="JUnit"><span class="tag-chk"></span><span>JUnit</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Pytest"><span class="tag-chk"></span><span>Pytest</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Mockito"><span class="tag-chk"></span><span>Mockito</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Selenium"><span class="tag-chk"></span><span>Selenium</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Load Testing"><span class="tag-chk"></span><span>Load Testing</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="Code Coverage"><span class="tag-chk"></span><span>Code Coverage</span></label>
+            <label class="tag tag-green"><input type="checkbox" class="tag-cb" data-key="SonarQube"><span class="tag-chk"></span><span>SonarQube</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-activity"></i>Concurrency &amp; Perf</div>
+          <div class="tags-area" data-cat="Concurrency &amp; Perf">
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Multithreading"><span class="tag-chk"></span><span>Multithreading</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Async / Await"><span class="tag-chk"></span><span>Async / Await</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Coroutines"><span class="tag-chk"></span><span>Coroutines</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Actor Model"><span class="tag-chk"></span><span>Actor Model</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Memory Management"><span class="tag-chk"></span><span>Memory Management</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Profiling"><span class="tag-chk"></span><span>Profiling</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Benchmarking"><span class="tag-chk"></span><span>Benchmarking</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-shield-check"></i>Security</div>
+          <div class="tags-area" data-cat="Security">
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="OWASP Top 10"><span class="tag-chk"></span><span>OWASP Top 10</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Cryptography"><span class="tag-chk"></span><span>Cryptography</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="OAuth2 / OIDC"><span class="tag-chk"></span><span>OAuth2 / OIDC</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Penetration Testing"><span class="tag-chk"></span><span>Penetration Testing</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Secure Coding"><span class="tag-chk"></span><span>Secure Coding</span></label>
+            <label class="tag tag-red"><input type="checkbox" class="tag-cb" data-key="Secret Management"><span class="tag-chk"></span><span>Secret Management</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-cpu"></i>ML / AI</div>
+          <div class="tags-area" data-cat="ML / AI">
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="TensorFlow"><span class="tag-chk"></span><span>TensorFlow</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="PyTorch"><span class="tag-chk"></span><span>PyTorch</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="scikit-learn"><span class="tag-chk"></span><span>scikit-learn</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="Pandas / NumPy"><span class="tag-chk"></span><span>Pandas / NumPy</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="LangChain"><span class="tag-chk"></span><span>LangChain</span></label>
+            <label class="tag tag-pink"><input type="checkbox" class="tag-cb" data-key="Hugging Face"><span class="tag-chk"></span><span>Hugging Face</span></label>
+          </div>
+
+          <div class="table-cat"><i class="bi-wrench-adjustable"></i>Tools</div>
+          <div class="tags-area" data-cat="Tools">
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Git"><span class="tag-chk"></span><span>Git</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Linux / Shell"><span class="tag-chk"></span><span>Linux / Shell</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Jira / Linear"><span class="tag-chk"></span><span>Jira / Linear</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Confluence"><span class="tag-chk"></span><span>Confluence</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="VS Code / IntelliJ"><span class="tag-chk"></span><span>VS Code / IntelliJ</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Postman"><span class="tag-chk"></span><span>Postman</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="API Gateway"><span class="tag-chk"></span><span>API Gateway</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="OpenTelemetry"><span class="tag-chk"></span><span>OpenTelemetry</span></label>
+            <label class="tag tag-gray"><input type="checkbox" class="tag-cb" data-key="Sentry"><span class="tag-chk"></span><span>Sentry</span></label>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- .tables-wrap -->
+
+    <!-- ======== MIND MAP ======== -->
+    <h2 class="section-label" style="margin-top:16px"><i class="bi-diagram-3"></i>Mind Map</h2>
+
+    <div class="mindmap-wrap">
+      <div class="mindmap">
+
+        <div class="mm-root">
+          <div class="mm-root-node"><i class="bi-layers"></i>Tech Stack</div>
+        </div>
+
+        <div class="mm-connector" style="height:24px"></div>
+
+        <div class="mm-row mm-roles">
+
+          <div class="mm-role-col">
+            <div class="mm-role-node"><i class="bi-window-stack"></i>Frontend</div>
+            <div class="mm-connector" style="height:14px"></div>
+            <div class="mm-cats-wrap">
+              <div class="mm-cats">
+                <span class="mm-cat-node tag-blue">HTML / CSS</span>
+                <span class="mm-cat-node tag-blue">JS / TS</span>
+                <span class="mm-cat-node tag-teal">React</span>
+                <span class="mm-cat-node tag-teal">Vue</span>
+                <span class="mm-cat-node tag-teal">Next.js</span>
+                <span class="mm-cat-node tag-teal">Tailwind</span>
+                <span class="mm-cat-node tag-purple">Vite</span>
+                <span class="mm-cat-node tag-green">Jest</span>
+                <span class="mm-cat-node tag-pink">GraphQL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mm-role-col">
+            <div class="mm-role-node"><i class="bi-server"></i>Backend</div>
+            <div class="mm-connector" style="height:14px"></div>
+            <div class="mm-cats-wrap">
+              <div class="mm-cats">
+                <span class="mm-cat-node tag-blue">Node.js</span>
+                <span class="mm-cat-node tag-blue">Python</span>
+                <span class="mm-cat-node tag-blue">Go</span>
+                <span class="mm-cat-node tag-blue">Rust</span>
+                <span class="mm-cat-node tag-teal">Express</span>
+                <span class="mm-cat-node tag-teal">Django</span>
+                <span class="mm-cat-node tag-coral">PostgreSQL</span>
+                <span class="mm-cat-node tag-coral">MongoDB</span>
+                <span class="mm-cat-node tag-amber">Docker</span>
+                <span class="mm-cat-node tag-amber">K8s</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mm-role-col">
+            <div class="mm-role-node"><i class="bi-stack"></i>Full Stack</div>
+            <div class="mm-connector" style="height:14px"></div>
+            <div class="mm-cats-wrap">
+              <div class="mm-cats">
+                <span class="mm-cat-node tag-blue">JS / TS</span>
+                <span class="mm-cat-node tag-teal">Next.js</span>
+                <span class="mm-cat-node tag-teal">Nuxt</span>
+                <span class="mm-cat-node tag-teal">SvelteKit</span>
+                <span class="mm-cat-node tag-coral">PostgreSQL</span>
+                <span class="mm-cat-node tag-coral">Redis</span>
+                <span class="mm-cat-node tag-teal">Prisma</span>
+                <span class="mm-cat-node tag-amber">Vercel</span>
+                <span class="mm-cat-node tag-pink">tRPC</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mm-role-col">
+            <div class="mm-role-node"><i class="bi-cpu"></i>Software Eng</div>
+            <div class="mm-connector" style="height:14px"></div>
+            <div class="mm-cats-wrap">
+              <div class="mm-cats">
+                <span class="mm-cat-node tag-blue">Java</span>
+                <span class="mm-cat-node tag-blue">C++</span>
+                <span class="mm-cat-node tag-blue">Rust</span>
+                <span class="mm-cat-node tag-purple">DSA</span>
+                <span class="mm-cat-node tag-purple">Microservices</span>
+                <span class="mm-cat-node tag-purple">DDD</span>
+                <span class="mm-cat-node tag-teal">Flutter</span>
+                <span class="mm-cat-node tag-teal">React Native</span>
+                <span class="mm-cat-node tag-amber">K8s</span>
+                <span class="mm-cat-node tag-red">OWASP</span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- .mm-roles -->
+
+      </div><!-- .mindmap -->
+    </div><!-- .mindmap-wrap -->
+
+    <!-- ======== PROGRESS & ANALYTICS ======== -->
+    <h2 class="section-label" style="margin-top:16px"><i class="bi-graph-up-arrow"></i>Progress &amp; Analytics</h2>
+
+    <div class="progress-section">
+
+      <!-- Summary Cards -->
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="num teal" id="card-total">0 / 0</div>
+          <div class="lbl"><i class="bi-check-circle"></i> Total Mastered</div>
+        </div>
+        <div class="summary-card">
+          <div class="num green" id="card-best">-</div>
+          <div class="lbl"><i class="bi-trophy"></i> Best Category</div>
+        </div>
+        <div class="summary-card">
+          <div class="num amber" id="card-worst">-</div>
+          <div class="lbl"><i class="bi-arrow-down"></i> Worst Category</div>
+        </div>
+        <div class="summary-card">
+          <div class="num coral" id="card-streak">0 days</div>
+          <div class="lbl"><i class="bi-fire"></i> Current Streak</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3><i class="bi-calendar-check"></i> Monthly Progress</h3>
+          <canvas id="lineChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3><i class="bi-pie-chart"></i> Category Breakdown</h3>
+          <canvas id="doughnutChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Per-Role Detail -->
+      <div class="per-role-bars" id="per-role-bars"></div>
+
+      <!-- Reset -->
+      <div class="reset-wrap">
+        <button class="btn-reset" id="btn-reset"><i class="bi-arrow-counterclockwise"></i> Reset All Progress</button>
+      </div>
+
+    </div>
+
+  </div><!-- .container -->
+
+  <!-- Reset Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-dialog">
+      <div class="modal-icon"><i class="bi-arrow-counterclockwise"></i></div>
+      <div class="modal-title">Reset All Progress</div>
+      <p class="modal-desc">Semua data mastery akan dihapus permanen. Tindakan ini tidak bisa dibatalkan.</p>
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn-cancel" id="modal-cancel">Batal</button>
+        <button class="modal-btn modal-btn-confirm" id="modal-confirm">Ya, Reset!</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      var STORAGE_KEY = 'ts_mastered';
+      var HISTORY_KEY = 'ts_history';
+      var COLOR_MAP = {
+        'tag-blue': 'Languages',
+        'tag-teal': 'Frameworks',
+        'tag-coral': 'Database',
+        'tag-purple': 'Build/Tooling',
+        'tag-amber': 'DevOps',
+        'tag-green': 'Testing',
+        'tag-gray': 'Tools',
+        'tag-pink': 'API/Protocol',
+        'tag-red': 'Security'
+      };
+      var CAT_COLORS = {
+        'Languages': '#1a4f7a',
+        'Frameworks': '#085a45',
+        'Database': '#70301c',
+        'Build/Tooling': '#3a3285',
+        'DevOps': '#633d0e',
+        'Testing': '#2a5508',
+        'Tools': '#484842',
+        'API/Protocol': '#722642',
+        'Security': '#722626'
+      };
+
+      var lineChart = null;
+      var doughnutChart = null;
+
+      function getMastered() { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+
+      function setMastered(arr) { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
+
+      function getHistory() { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '{}'); }
+
+      function setHistory(obj) { localStorage.setItem(HISTORY_KEY, JSON.stringify(obj)); }
+
+      function checkedCount() { return document.querySelectorAll('.tag-cb:checked').length; }
+
+      function ensureSnapshot() {
+        var today = new Date().toISOString().slice(0, 10);
+        var h = getHistory();
+        if (!h[today]) { h[today] = checkedCount();
+          setHistory(h); }
+      }
+
+      // Theme toggle
+      var themeToggle = document.getElementById('theme-toggle');
+      if (localStorage.getItem('ts_theme') === 'dark') {
+        document.documentElement.classList.add('dark-theme');
+        themeToggle.checked = true;
+      }
+      themeToggle.addEventListener('change', function() {
+        document.documentElement.classList.toggle('dark-theme', this.checked);
+        localStorage.setItem('ts_theme', this.checked ? 'dark' : 'light');
+        setTimeout(refreshAll, 50);
+      });
+
+      // Init checkboxes from localStorage
+      var mastered = getMastered();
+      document.querySelectorAll('.tag-cb').forEach(function(cb) {
+        cb.checked = mastered.includes(cb.dataset.key);
+        if (cb.checked) cb.closest('.tag').classList.add('tag-checked');
+      });
+
+      // Delegated change handler
+      document.querySelector('.tables-wrap').addEventListener('change', function(e) {
+        if (!e.target.matches('.tag-cb')) return;
+        var tag = e.target.closest('.tag');
+        tag.classList.toggle('tag-checked', e.target.checked);
+        var checked = Array.from(document.querySelectorAll('.tag-cb:checked')).map(function(c) { return c.dataset.key; });
+        setMastered(checked);
+        var today = new Date().toISOString().slice(0, 10);
+        var h = getHistory();
+        h[today] = checked.length;
+        setHistory(h);
+        refreshAll();
+      });
+
+      function getRoleData(roleTable) {
+        var cats = {};
+        var all = 0,
+          chk = 0;
+        roleTable.querySelectorAll('.tags-area').forEach(function(area) {
+          var catName = area.dataset.cat || 'General';
+          var total = area.querySelectorAll('.tag-cb').length;
+          var masteredC = area.querySelectorAll('.tag-cb:checked').length;
+          cats[catName] = { total: total, mastered: masteredC };
+          all += total;
+          chk += masteredC;
+        });
+        return { total: all, mastered: chk, cats: cats };
+      }
+
+      function safe(fn, name) { try { fn(); } catch(e) { console.warn('refreshAll>'+name+':', e.message); } }
+
+      function refreshAll() {
+        safe(updateRoleBars, 'updateRoleBars');
+        safe(updateSummaryCards, 'updateSummaryCards');
+        safe(updateLineChart, 'updateLineChart');
+        safe(updateDoughnutChart, 'updateDoughnutChart');
+        safe(updatePerRoleBars, 'updatePerRoleBars');
+      }
+
+      function updateRoleBars() {
+        document.querySelectorAll('.role-table').forEach(function(table) {
+          var data = getRoleData(table);
+          var textEl = table.querySelector('.bar-text');
+          var fillEl = table.querySelector('.bar-fill');
+          textEl.textContent = data.mastered + ' / ' + data.total + ' mastered';
+          textEl.dataset.text = data.mastered + ' / ' + data.total;
+          var pct = data.total > 0 ? (data.mastered / data.total * 100) : 0;
+          fillEl.style.width = pct + '%';
+        });
+      }
+
+      function updateSummaryCards() {
+        var allTags = document.querySelectorAll('.tag-cb');
+        var total = allTags.length;
+        var mastered = document.querySelectorAll('.tag-cb:checked').length;
+        document.getElementById('card-total').textContent = mastered + ' / ' + total;
+
+        var globalCats = {};
+        document.querySelectorAll('.tags-area').forEach(function(area) {
+          area.querySelectorAll('.tag').forEach(function(tag) {
+            var cls = Array.from(tag.classList).find(function(c) { return c.startsWith('tag-') && c !== 'tag-chk' && c !== 'tag-cb' && c !== 'tag-checked'; });
+            if (!cls) return;
+            var cat = COLOR_MAP[cls] || 'Other';
+            if (!globalCats[cat]) globalCats[cat] = { total: 0, mastered: 0 };
+            globalCats[cat].total++;
+            if (tag.querySelector('.tag-cb') && tag.querySelector('.tag-cb').checked) globalCats[cat].mastered++;
+          });
+        });
+
+        var best = null,
+          worst = null;
+        for (var c in globalCats) {
+          var pct = globalCats[c].total > 0 ? (globalCats[c].mastered / globalCats[c].total * 100) : 0;
+          if (!best || pct > best.pct) best = { name: c, pct: pct };
+          if (!worst || pct < worst.pct) worst = { name: c, pct: pct };
+        }
+
+        document.getElementById('card-best').textContent = best ? best.name + ' (' + Math.round(best.pct) + '%)' : '-';
+        document.getElementById('card-worst').textContent = worst ? worst.name + ' (' + Math.round(worst.pct) + '%)' : '-';
+
+        var streak = calcStreak();
+        document.getElementById('card-streak').textContent = streak + ' day' + (streak !== 1 ? 's' : '');
+      }
+
+      function calcStreak() {
+        var h = getHistory();
+        var days = Object.keys(h).sort().reverse();
+        if (days.length === 0) return 0;
+        var streak = 0;
+        var today = new Date();
+        var check = new Date(today);
+        for (var i = 0; i < days.length; i++) {
+          var d = new Date(days[i] + 'T00:00:00');
+          var diff = Math.round((check - d) / 86400000);
+          if (diff === 0) { streak++;
+            check.setDate(check.getDate() - 1); } else if (diff === 1) { streak++;
+            check = d; } else break;
+        }
+        return streak;
+      }
+
+      function updateLineChart() {
+        var h = getHistory();
+        var days = Object.keys(h).sort();
+        if (days.length === 0) { days = [new Date().toISOString().slice(0, 10)];
+          h[days[0]] = 0; }
+
+        var labels = days.slice(-30);
+        var data = labels.map(function(d) { return h[d] || 0; });
+
+        var ctx = document.getElementById('lineChart').getContext('2d');
+        if (lineChart) { lineChart.destroy(); }
+
+        var isDark = document.documentElement.classList.contains('dark-theme');
+        var gridColor = isDark ? '#3e444e' : '#d0d4da';
+        var textColor = isDark ? '#b0b5bc' : '#555b63';
+
+        lineChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels.map(function(d) {
+              var parts = d.split('-');
+              return parts[1] + '/' + parts[2];
+            }),
+            datasets: [{
+              label: 'Mastered',
+              data: data,
+              borderColor: '#085a45',
+              backgroundColor: 'rgba(8,90,69,0.10)',
+              fill: true,
+              tension: 0.3,
+              pointRadius: 3,
+              pointBackgroundColor: '#085a45',
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: { display: false }
+            },
+            scales: {
+              x: {
+                ticks: { color: textColor, font: { size: 10 } },
+                grid: { color: gridColor }
+              },
+              y: {
+                beginAtZero: true,
+                ticks: { color: textColor, font: { size: 10 }, stepSize: 1 },
+                grid: { color: gridColor }
+              }
+            }
+          }
+        });
+      }
+
+      function updateDoughnutChart() {
+        var globalCats = {};
+        document.querySelectorAll('.tags-area').forEach(function(area) {
+          area.querySelectorAll('.tag').forEach(function(tag) {
+            var cls = Array.from(tag.classList).find(function(c) { return c.startsWith('tag-') && c !== 'tag-chk' && c !== 'tag-cb' && c !== 'tag-checked'; });
+            if (!cls) return;
+            var cat = COLOR_MAP[cls] || 'Other';
+            if (!globalCats[cat]) globalCats[cat] = { total: 0, mastered: 0 };
+            globalCats[cat].total++;
+            if (tag.querySelector('.tag-cb') && tag.querySelector('.tag-cb').checked) globalCats[cat].mastered++;
+          });
+        });
+
+        var labels = [],
+          data = [],
+          colors = [];
+        for (var c in globalCats) {
+          labels.push(c);
+          data.push(globalCats[c].mastered);
+          colors.push(CAT_COLORS[c] || '#484842');
+        }
+
+        var ctx = document.getElementById('doughnutChart').getContext('2d');
+        if (doughnutChart) { doughnutChart.destroy(); }
+
+        var isDark = document.documentElement.classList.contains('dark-theme');
+        var textColor = isDark ? '#b0b5bc' : '#555b63';
+
+        doughnutChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: data,
+              backgroundColor: colors,
+              borderWidth: 2,
+              borderColor: isDark ? '#2d333b' : '#e2e6ec'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: { color: textColor, font: { size: 10 }, boxWidth: 12, padding: 8 }
+              }
+            }
+          }
+        });
+      }
+
+      function catToTagClass(cat) {
+        for (var cls in COLOR_MAP) {
+          if (COLOR_MAP[cls] === cat) return cls.replace('tag-', '');
+        }
+        return null;
+      }
+
+      function updatePerRoleBars() {
+        var container = document.getElementById('per-role-bars');
+        container.innerHTML = '';
+        var roleNames = {
+          'frontend': 'Frontend Developer',
+          'backend': 'Backend Developer',
+          'fullstack': 'Full Stack Developer',
+          'software': 'Software Engineer'
+        };
+        var roleIcons = {
+          'frontend': 'bi-window-stack',
+          'backend': 'bi-server',
+          'fullstack': 'bi-stack',
+          'software': 'bi-cpu'
+        };
+
+        document.querySelectorAll('.role-table').forEach(function(table) {
+          var role = table.dataset.role || 'unknown';
+          var data = getRoleData(table);
+          var div = document.createElement('div');
+          div.className = 'pr-table';
+          var title = document.createElement('div');
+          title.className = 'pr-title';
+          title.innerHTML = '<i class="' + roleIcons[role] + '"></i> ' + roleNames[role] + ' &mdash; ' + data.mastered + '/' + data.total;
+          div.appendChild(title);
+
+          for (var cat in data.cats) {
+            var d = data.cats[cat];
+            var pct = d.total > 0 ? (d.mastered / d.total * 100) : 0;
+            var row = document.createElement('div');
+            row.className = 'pr-bar-row';
+            row.innerHTML =
+              '<span class="pr-cat">' + cat + '</span>' +
+              '<span class="pr-bar-track"><span class="pr-bar-fill" style="width:' + pct + '%"></span></span>' +
+              '<span class="pr-bar-num">' + d.mastered + '/' + d.total + '</span>';
+
+            var fill = row.querySelector('.pr-bar-fill');
+            var cls = catToTagClass(cat);
+            if (cls) fill.style.background = 'var(--' + cls + '-text)';
+            else fill.style.background = 'var(--gray-text)';
+
+            div.appendChild(row);
+          }
+          container.appendChild(div);
+        });
+      }
+
+      // Modal
+      var modal = document.getElementById('modal-overlay');
+
+      function showModal() { modal.classList.add('active'); }
+
+      function hideModal() { modal.classList.remove('active'); }
+
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') hideModal(); });
+
+      document.getElementById('btn-reset').addEventListener('click', showModal);
+      document.getElementById('modal-cancel').addEventListener('click', hideModal);
+      modal.addEventListener('click', function(e) { if (e.target === modal) hideModal(); });
+
+      function doReset() {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(HISTORY_KEY);
+        document.querySelectorAll('.tag-cb').forEach(function(cb) {
+          cb.checked = false;
+          cb.closest('.tag').classList.remove('tag-checked');
+        });
+        var today = new Date().toISOString().slice(0, 10);
+        var h = getHistory();
+        h[today] = 0;
+        setHistory(h);
+        setMastered([]);
+        hideModal();
+        refreshAll();
+      }
+
+      document.getElementById('modal-confirm').addEventListener('click', doReset);
+
+      // Init
+      ensureSnapshot();
+      refreshAll();
+
+    })();
+  </script>
+</body>
+
+</html>
