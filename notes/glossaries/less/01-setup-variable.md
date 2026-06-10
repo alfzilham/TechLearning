@@ -1,86 +1,112 @@
-# 01 Setup & Variable
+# Setup & Variable
 
 ## Setup
 
 | Konsep | Penjelasan | Contoh |
-|--------|------------|--------|
-| Instalasi global | Install Less compiler via npm secara global | `npm install -g less` |
-| Kompilasi file | Mengubah `.less` menjadi `.css` dengan CLI | `lessc input.less output.css` |
-| Watch mode | Otomatis kompilasi setiap perubahan file | `lessc --watch input.less output.css` |
-| Minify | Mengompresi output CSS dengan plugin clean-css | `lessc --clean-css input.less output.css` |
-| Node.js API | Kompilasi programatik via `less.render()` | `less.render(code, { paths }, callback)` |
-| Package script | Menyimpan perintah Less di `package.json` | `"build:css": "lessc src/style.less dist/style.css"` |
+|--------|-----------|--------|
+| `npm install -g less` | Install Less compiler global | `npm i -g less` |
+| `lessc` | Compile .less ke .css | `lessc style.less style.css` |
+| `--watch` | Otomatis compile saat file berubah | `lessc --watch style.less style.css` |
+| `--clean-css` | Minify output CSS | `lessc --clean-css style.less style.min.css` |
+| `--source-map` | Generate source map | `lessc --source-map style.less style.css` |
+| `less.render()` | Compile via Node.js API | `less.render(".a { color: red }", callback)` |
 
 ```less
-// CLI
+// Terminal
 npm install -g less
-lessc style.less style.css
-lessc --watch style.less style.css
-lessc --clean-css style.less style.min.css
-
-// Node.js usage
-const less = require('less');
-less.render('.class { width: 1 + 1 }', {
-  paths: ['.', './src'],
-  filename: 'style.less'
-}, (err, output) => {
-  console.log(output.css);
-});
+lessc src/style.less dist/style.css
+lessc --watch src/style.less dist/style.css
+lessc --clean-css src/style.less dist/style.min.css
 
 // package.json
-// "scripts": {
-//   "build:css": "lessc src/style.less dist/style.css",
-//   "watch:css": "lessc --watch src/style.less dist/style.css",
-//   "min:css": "lessc --clean-css src/style.less dist/style.min.css"
-// }
+{
+  "scripts": {
+    "compile": "lessc src/style.less dist/style.css",
+    "watch": "lessc --watch src/style.less dist/style.css",
+    "build": "lessc --clean-css src/style.less dist/style.min.css"
+  }
+}
+
+// Node.js API
+const less = require('less');
+less.render('.class { color: red; }', (err, output) => {
+  console.log(output.css);
+});
 ```
+
+---
 
 ## Variable
 
-| Konsep | Penjelasan | Contoh |
-|--------|------------|--------|
-| Deklarasi variable | Mendefinisikan nilai reusable dengan `@` | `@primary: #007bff;` |
-| Value interpolation | Menyisipkan variable ke selector/properti/URL | `@{selector} { @{prop}: value; }` |
-| Lazy loading | Variable tidak perlu dideklarasikan sebelum digunakan | `@var: 10px;` setelah penggunaan tetap diproses |
-| Last definition wins | Nilai variable adalah deklarasi terakhir dalam scope | `@var: 1; @var: 2;` → hasilnya `2` |
-| Variable dalam string | Interpolasi dalam string path/URL | `background: url("@{base-url}/img.png");` |
-
+### `@variable`
+Variabel untuk menyimpan nilai (warna, ukuran, font, dll).
 ```less
-// Variable dasar
-@primary: #007bff;
-@padding: 16px;
-@font-stack: 'Helvetica', sans-serif;
+@primary-color: #3498db;
+@font-size: 16px;
+@spacing: 20px;
 
-body {
-  color: @primary;
-  padding: @padding;
-  font-family: @font-stack;
+.header {
+  color: @primary-color;
+  font-size: @font-size;
+  padding: @spacing;
+}
+```
+
+| Konsep | Penjelasan | Contoh |
+|--------|-----------|--------|
+| `@nama` | Mendeklarasikan variable | `@warna: red;` |
+| `@{nama}` | Interpolation — pakai variable di selector/properti | `.@{name} { }` |
+| Lazy loading | Variable diproses dari akhir (tidak masalah urutan) | `@a: 1; @a: 2;` → hasil 2 |
+| Variable scoping | Variable lokal di dalam block | `.box { @color: red; }` |
+
+### Interpolation `@{var}`
+Variable bisa dipakai di selector, properti, URL, import.
+```less
+@prefix: col;
+@url: "../images/";
+@side: left;
+
+.@{prefix}-4 { width: 33%; }          // .col-4
+.@{prefix}-6 { width: 50%; }          // .col-6
+
+background-url: "@{url}bg.jpg";       // "../images/bg.jpg"
+border-@{side}: 1px solid #ccc;       // border-left
+```
+
+### Lazy Loading
+Variable di Less tidak harus didefinisikan sebelum dipakai (beda dengan Sass).
+```less
+// Lazy loading — urutan deklarasi tidak masalah
+.section {
+  color: @theme; // @theme belum didefinisikan di sini
 }
 
-// Interpolation di selector
-@prefix: app;
-.@{prefix}-header { background: @primary; }
-.@{prefix}-footer { color: @primary; }
+@theme: blue;    // Tapi nanti akan dipakai
 
-// Interpolation di properti
-@side: margin-top;
-.@{side} { @{side}: 10px; }
+// Hasil: .section { color: blue; }
+```
 
-// Interpolation di URL
-@base-url: "../assets";
-.logo { background: url("@{base-url}/logo.png"); }
+### Variable Scoping
+```less
+@color: blue; // global
 
-// Lazy loading
-@size: 20px;
-.box { width: @size; }
-@size: 30px;
-// Hasil: .box { width: 30px; } — last definition wins
-
-// Variable scoping
-@color: red;
-.wrapper {
-  @color: blue;
-  .inner { color: @color; } // blue
+.box {
+  @color: red; // lokal — override global di scope ini
+  color: @color; // red
 }
-.outer { color: @color; }   // red
+
+.other {
+  color: @color; // blue (global)
+}
+```
+
+### Variable List (Multiple values)
+```less
+@sizes: 10px 20px 30px;
+@colors: red, green, blue;
+
+.box {
+  padding: @sizes;      // padding: 10px 20px 30px
+  color: extract(@colors, 1); // red
+}
 ```

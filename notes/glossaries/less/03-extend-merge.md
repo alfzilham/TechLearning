@@ -1,164 +1,198 @@
-# 03 Extend & Merge
+# Extend & Merge
 
 ## Extend
 
 | Konsep | Penjelasan | Contoh |
-|--------|------------|--------|
-| `&:extend(.class)` | Mewarisi semua properti selector lain tanpa duplikasi | `.b { &:extend(.a); }` |
-| `&:extend(.class all)` | Juga memperluas ke instance nested dari selector target | `.b { &:extend(.a all); }` |
-| Extend multiple | Memperluas beberapa selector sekaligus | `&:extend(.a); &:extend(.b);` atau `&:extend(.a, .b)` |
-| Extend nested | Memperluas selector di dalam nested rule | `.inner { &:extend(.outer .desc); }` |
-| Extend vs mixin | Extend menggabungkan selector (DRY CSS), mixin menduplikasi properti | Lihat perbandingan di bawah |
-
-### Extend vs Mixin
-
-| Aspek | Extend | Mixin |
-|-------|--------|-------|
-| Output CSS | Selector digabung (comma) — lebih ringkas | Properti disalin ke setiap selector |
-| Ukuran file | Lebih kecil | Lebih besar (duplikasi) |
-| Spesifisitas | Mewarisi spesifisitas selector target | Spesifisitas sesuai posisi pemanggilan |
-| Parameter | Tidak bisa | Bisa parametric |
-| Kondisional | Tidak bisa | Bisa dengan guards |
+|--------|-----------|--------|
+| `&:extend(.class)` | Mewarisi style dari selector lain | `&:extend(.btn)` |
+| `&:extend(.class all)` | Extend termasuk nested instances | `&:extend(.btn all)` |
+| Extend vs Mixin | Extend = grouping selector, Mixin = copy style | — |
 
 ```less
-// EXTEND basic
-.a {
-  color: red;
-  padding: 10px;
+// Tanpa extend — duplikasi
+.btn {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
 }
-.b {
-  &:extend(.a);
-  border: 1px solid;
-}
-// Output:
-// .a, .b { color: red; padding: 10px; }
-// .b { border: 1px solid; }
 
-// EXTEND all — juga memperluas instance di dalam pseudo-class
-.a {
-  color: red;
-  &:hover {
-    color: blue;
-  }
+.btn-primary {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  background: blue;
+  color: white;
 }
-.b {
-  &:extend(.a all);
-}
-// Output:
-// .a, .b { color: red; }
-// .a:hover, .b:hover { color: blue; }
+/* Output — duplikasi properti */
 
-// Tanpa 'all':
-.c {
-  &:extend(.a);
+// Dengan extend — lebih efisien
+.btn {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
 }
-// Output:
-// .a, .c { color: red; }
-// .a:hover { color: blue; }   // tidak mengextend :hover
 
-// EXTEND multiple
-.error {
-  color: red;
+.btn-primary {
+  &:extend(.btn);
+  background: blue;
+  color: white;
 }
-.serious {
-  font-weight: bold;
-}
-.danger {
-  &:extend(.error);
-  &:extend(.serious);
-  background: #fcc;
-}
-// Atau: &:extend(.error, .serious);
 
-// EXTEND nested selector
-.outer {
-  .desc {
-    color: green;
-  }
+.btn-danger {
+  &:extend(.btn);
+  background: red;
+  color: white;
 }
-.inner {
-  &:extend(.outer .desc);
-}
-// Output: .outer .desc, .inner { color: green; }
 
-// Perbandingan dengan Mixin
-// Mixin — duplikasi properti
-.bordered-mixin {
-  border: 1px solid #ddd;
+/* OUTPUT CSS:
+.btn,
+.btn-primary,
+.btn-danger {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
 }
-.card-a { .bordered-mixin; }
-.card-b { .bordered-mixin; }
-// Output: .card-a { border: 1px solid #ddd; }
-//         .card-b { border: 1px solid #ddd; }
 
-// Extend — selector grouping
-.bordered-extend {
-  border: 1px solid #ddd;
-}
-.card-x { &:extend(.bordered-extend); }
-.card-y { &:extend(.bordered-extend); }
-// Output: .bordered-extend, .card-x, .card-y { border: 1px solid #ddd; }
+.btn-primary { background: blue; color: white; }
+.btn-danger { background: red; color: white; }
+*/
 ```
+
+### `&:extend(.class all)`
+Juga mewarisi style dari nested instances.
+```less
+.btn {
+  padding: 10px;
+
+  .icon {
+    margin-right: 8px;
+  }
+}
+
+.btn-large {
+  &:extend(.btn all);
+  // Juga mewarisi .btn .icon
+  padding: 20px;
+}
+```
+
+### Extend pada selector yang lebih kompleks
+```less
+// Bisa extend selector dengan multiple class
+a.important {
+  font-weight: bold;
+  color: red;
+}
+
+.btn {
+  &:extend(a.important);
+  // Sama dengan: .btn { font-weight: bold; color: red; }
+}
+
+// Bisa extend dengan pseudo-class
+:hover {
+  text-decoration: underline;
+}
+
+.link {
+  &:extend(:hover);
+}
+```
+
+### Extend vs Mixin
+```less
+// Mixin — copy style (CSS lebih besar)
+.button-base() {
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+.btn-primary {
+  .button-base();
+  background: blue;
+}
+
+.btn-secondary {
+  .button-base();
+  background: gray;
+}
+/* Output — duplikasi padding/border */
+
+// Extend — grouping (CSS lebih kecil)
+.button-base {
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+.btn-primary {
+  &:extend(.button-base);
+  background: blue;
+}
+
+.btn-secondary {
+  &:extend(.button-base);
+  background: gray;
+}
+/* Output — padding/border di-group */
+```
+
+---
 
 ## Merge
 
 | Konsep | Penjelasan | Contoh |
-|--------|------------|--------|
-| Comma merge `+` | Menggabungkan nilai dengan koma | `.a+() { background: url(a.png); }` |
-| Space merge `+_` | Menggabungkan nilai dengan spasi | `.a+_() { transform: scale(1); }` |
+|--------|-----------|--------|
+| Comma merge `+` | Menggabungkan nilai dengan koma | `.mixin()+ { }` |
+| Space merge `+_` | Menggabungkan nilai dengan spasi | `.mixin()+_ { }` |
 
+### Comma Merge `+`
+Untuk properti yang menerima multiple values dengan koma.
 ```less
-// Comma merge (+)
-.mixin-bg() {
-  background+:
-    url(bg1.png) no-repeat top left;
-}
-.card {
-  .mixin-bg();
-  background+:
-    url(bg2.png) center center;
-}
-// Output: .card {
-//   background: url(bg1.png) no-repeat top left,
-//               url(bg2.png) center center;
-// }
-
-// Space merge (+_)
+// Tanpa merge
 .mixin-shadow() {
-  box-shadow+_: 0 2px 4px rgba(0,0,0,.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
 .card {
   .mixin-shadow();
-  box-shadow+_: 0 0 0 1px #eee;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
-// Output: .card {
-//   box-shadow: 0 2px 4px rgba(0,0,0,.1) 0 0 0 1px #eee;
-// }
+// Output — OVERRIDE! shadow pertama hilang
 
-// Merge dengan transform
-.mixin-scale() {
-  transform+_: scale(1.5);
+// Dengan merge +
+.mixin-shadow() {
+  box-shadow+: 0 2px 4px rgba(0,0,0,0.1);
 }
-.element {
-  .mixin-scale();
-  transform+_: rotate(45deg);
-}
-// Output: .element {
-//   transform: scale(1.5) rotate(45deg);
-// }
 
-// Merge dengan background (comma)
-.mixin-gradient() {
-  background+:
-    linear-gradient(red, orange);
+.card {
+  .mixin-shadow();
+  box-shadow+: 0 4px 8px rgba(0,0,0,0.2);
 }
-.banner {
-  .mixin-gradient();
-  background+:
-    url(pattern.png) repeat;
+// Output: box-shadow: 0 2px 4px ..., 0 4px 8px ...;
+```
+
+### Space Merge `+_`
+Untuk properti yang menggabungkan dengan spasi.
+```less
+.mixin-transition() {
+  transition+: transform 0.3s;
 }
-// Output: .banner {
-//   background: linear-gradient(red, orange),
-//               url(pattern.png) repeat;
-// }
+
+.card {
+  .mixin-transition();
+  transition+: opacity 0.2s;
+}
+// Output: transition: transform 0.3s, opacity 0.2s;
+// (comma, karena transition juga pakai koma)
+
+// Space merge untuk properti seperti background, transform
+.mixin-bg() {
+  background+_: url("pattern.png") no-repeat;
+}
+
+.hero {
+  .mixin-bg();
+  background+_: linear-gradient(to right, blue, purple);
+}
+// Output: background: url("pattern.png") no-repeat linear-gradient(...);
 ```

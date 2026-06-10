@@ -315,7 +315,7 @@
     .role-progress .bar-track {
       flex: 1;
       max-width: 160px;
-      height: 8px;
+      height: 12px;
       border-radius: var(--radius-pill);
       background: var(--neu-bg);
       box-shadow: var(--shadow-inset);
@@ -326,8 +326,9 @@
     .role-progress .bar-fill {
       height: 100%;
       border-radius: var(--radius-pill);
-      background: linear-gradient(135deg, var(--teal-text), var(--blue-text));
+      background: var(--teal-text);
       width: 0%;
+      min-width: 6px;
       transition: width 0.5s ease;
     }
 
@@ -792,6 +793,7 @@
       height: 100%;
       border-radius: var(--radius-pill);
       width: 0%;
+      min-width: 6px;
       transition: width 0.5s ease;
     }
 
@@ -834,6 +836,21 @@
     .btn-reset:active {
       box-shadow: var(--shadow-pressed)
     }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 7px; height: 7px; }
+    ::-webkit-scrollbar-track {
+      background: var(--neu-bg);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--text-muted);
+      border-radius: 10px;
+      border: 2px solid var(--neu-bg);
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
+    * { scrollbar-width: thin; scrollbar-color: var(--text-muted) var(--neu-bg); }
+    .mindmap::-webkit-scrollbar { height: 5px; }
 
     /* ── Modal ── */
     .modal-overlay {
@@ -1873,12 +1890,14 @@
       function updateRoleBars() {
         document.querySelectorAll('.role-table').forEach(function(table) {
           var data = getRoleData(table);
-          var textEl = table.querySelector('.bar-text');
-          var fillEl = table.querySelector('.bar-fill');
-          textEl.textContent = data.mastered + ' / ' + data.total + ' mastered';
-          textEl.dataset.text = data.mastered + ' / ' + data.total;
-          var pct = data.total > 0 ? (data.mastered / data.total * 100) : 0;
-          fillEl.style.width = pct + '%';
+          var textEl = table.querySelector('.role-progress .bar-text');
+          var fillEl = table.querySelector('.role-progress .bar-fill');
+          if (textEl && fillEl) {
+            textEl.textContent = data.mastered + ' / ' + data.total + ' mastered';
+            textEl.dataset.text = data.mastered + ' / ' + data.total;
+            var pct = data.total > 0 ? (data.mastered / data.total * 100) : 0;
+            fillEl.style.width = pct + '%';
+          }
         });
       }
 
